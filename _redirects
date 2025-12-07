@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects
+
+# Remove trailing slash duplicates (optional, handled by Next.js)
+# /blog  /blog/  301
+
+# Future: Add custom redirects here
+# /old-path  /new-path  301

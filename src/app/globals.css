@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .container-base {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .prose-custom h2 {
+    @apply text-2xl font-bold mt-10 mb-4 pb-2 border-b border-gray-200;
+  }
+
+  .prose-custom h3 {
+    @apply text-xl font-bold mt-8 mb-3;
+  }
+
+  .prose-custom h4 {
+    @apply text-lg font-semibold mt-6 mb-2;
+  }
+
+  .prose-custom p {
+    @apply my-4 leading-relaxed;
+  }
+
+  .prose-custom ul {
+    @apply my-4 pl-6 list-disc;
+  }
+
+  .prose-custom ol {
+    @apply my-4 pl-6 list-decimal;
+  }
+
+  .prose-custom li {
+    @apply my-1;
+  }
+
+  .prose-custom blockquote {
+    @apply my-6 pl-4 border-l-4 border-gray-300 text-gray-600 italic;
+  }
+
+  .prose-custom a {
+    @apply text-blue-600 underline hover:text-blue-800;
+  }
+
+  .prose-custom code {
+    @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose-custom pre {
+    @apply my-6 p-4 bg-gray-900 text-gray-100 rounded-lg overflow-x-auto;
+  }
+
+  .prose-custom pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .prose-custom img {
+    @apply my-6 rounded-lg max-w-full h-auto;
+  }
+}
+
+/* AdSense用スペース */
+.ad-container {
+  @apply my-8 min-h-[250px] bg-gray-50 flex items-center justify-center border border-dashed border-gray-300 rounded-lg;
+}

@@ -1,0 +1,10 @@
+# Cloudflare Pages configuration
+name = "subscription-media"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "out"
+
+# Environment variables (set in Cloudflare dashboard for security)
+# [vars]
+# NEXT_PUBLIC_SANITY_PROJECT_ID = ""
+# NEXT_PUBLIC_SANITY_DATASET = "production"
+# NEXT_PUBLIC_SITE_URL = ""
