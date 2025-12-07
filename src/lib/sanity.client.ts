@@ -6,8 +6,11 @@ export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-01-01'
 
+// Use placeholder to prevent build error when env vars are not set
+const clientProjectId = projectId || 'placeholder'
+
 export const client = createClient({
-  projectId,
+  projectId: clientProjectId,
   dataset,
   apiVersion,
   useCdn: true,
@@ -23,7 +26,8 @@ export async function safeFetch<T>(
   params: Record<string, unknown> = {},
   defaultValue: T
 ): Promise<T> {
-  if (!projectId) {
+  // Return default if projectId is not actually configured
+  if (!projectId || projectId === 'placeholder') {
     console.warn('Sanity project ID is not configured')
     return defaultValue
   }
@@ -56,6 +60,7 @@ export function getImageUrl(
   height?: number
 ): string | null {
   if (!source?.asset) return null
+  if (!projectId) return null
 
   let imageBuilder = builder.image(source).width(width).auto('format').quality(80)
 
