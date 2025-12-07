@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { client } from '@/lib/sanity.client'
+import { safeFetch } from '@/lib/sanity.client'
 import { postsQuery, postsCountQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PostCard from '@/components/PostCard'
@@ -35,8 +35,8 @@ async function getPosts(page: number) {
   const end = start + PAGE_SIZE
 
   const [posts, total] = await Promise.all([
-    client.fetch<Post[]>(postsQuery, { start, end }),
-    client.fetch<number>(postsCountQuery),
+    safeFetch<Post[]>(postsQuery, { start, end }, []),
+    safeFetch<number>(postsCountQuery, {}, 0),
   ])
 
   return {
@@ -44,7 +44,7 @@ async function getPosts(page: number) {
     total,
     page,
     pageSize: PAGE_SIZE,
-    totalPages: Math.ceil(total / PAGE_SIZE),
+    totalPages: Math.ceil(total / PAGE_SIZE) || 1,
   }
 }
 

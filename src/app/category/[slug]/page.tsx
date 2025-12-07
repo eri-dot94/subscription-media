@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { client } from '@/lib/sanity.client'
+import { safeFetch } from '@/lib/sanity.client'
 import {
   postsByCategoryQuery,
   postsByCategoryCountQuery,
@@ -22,7 +22,7 @@ interface CategoryPageProps {
 }
 
 async function getCategory(slug: string): Promise<Category | null> {
-  return client.fetch(categoryBySlugQuery, { slug })
+  return safeFetch<Category | null>(categoryBySlugQuery, { slug }, null)
 }
 
 async function getPostsByCategory(categorySlug: string, page: number) {
@@ -30,8 +30,8 @@ async function getPostsByCategory(categorySlug: string, page: number) {
   const end = start + PAGE_SIZE
 
   const [posts, total] = await Promise.all([
-    client.fetch<Post[]>(postsByCategoryQuery, { categorySlug, start, end }),
-    client.fetch<number>(postsByCategoryCountQuery, { categorySlug }),
+    safeFetch<Post[]>(postsByCategoryQuery, { categorySlug, start, end }, []),
+    safeFetch<number>(postsByCategoryCountQuery, { categorySlug }, 0),
   ])
 
   return {
@@ -39,12 +39,12 @@ async function getPostsByCategory(categorySlug: string, page: number) {
     total,
     page,
     pageSize: PAGE_SIZE,
-    totalPages: Math.ceil(total / PAGE_SIZE),
+    totalPages: Math.ceil(total / PAGE_SIZE) || 1,
   }
 }
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch<{ slug: string }[]>(allCategorySlugsQuery)
+  const slugs = await safeFetch<{ slug: string }[]>(allCategorySlugsQuery, {}, [])
   return slugs.map((item) => ({ slug: item.slug }))
 }
 

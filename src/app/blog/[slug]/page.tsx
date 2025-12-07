@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client, getImageUrl } from '@/lib/sanity.client'
+import { safeFetch, getImageUrl } from '@/lib/sanity.client'
 import { postBySlugQuery, allPostSlugsQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
@@ -15,11 +15,11 @@ interface PostPageProps {
 }
 
 async function getPost(slug: string): Promise<Post | null> {
-  return client.fetch(postBySlugQuery, { slug })
+  return safeFetch<Post | null>(postBySlugQuery, { slug }, null)
 }
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch<{ slug: string }[]>(allPostSlugsQuery)
+  const slugs = await safeFetch<{ slug: string }[]>(allPostSlugsQuery, {}, [])
   return slugs.map((item) => ({ slug: item.slug }))
 }
 

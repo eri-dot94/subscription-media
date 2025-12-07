@@ -12,7 +12,37 @@ export const client = createClient({
   apiVersion,
   useCdn: true,
   perspective: 'published',
+  stega: {
+    enabled: false,
+  },
 })
+
+// Safe fetch wrapper with timeout
+export async function safeFetch<T>(
+  query: string,
+  params: Record<string, unknown> = {},
+  defaultValue: T
+): Promise<T> {
+  if (!projectId) {
+    console.warn('Sanity project ID is not configured')
+    return defaultValue
+  }
+
+  try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+
+    const result = await client.fetch<T>(query, params, {
+      signal: controller.signal,
+    })
+
+    clearTimeout(timeoutId)
+    return result ?? defaultValue
+  } catch (error) {
+    console.error('Sanity fetch error:', error)
+    return defaultValue
+  }
+}
 
 const builder = imageUrlBuilder(client)
 

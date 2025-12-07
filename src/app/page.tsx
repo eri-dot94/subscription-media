@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { client } from '@/lib/sanity.client'
+import { safeFetch } from '@/lib/sanity.client'
 import { latestPostsQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PostCard from '@/components/PostCard'
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 }
 
 async function getLatestPosts(): Promise<Post[]> {
-  return client.fetch(latestPostsQuery, { limit: 6 })
+  return safeFetch<Post[]>(latestPostsQuery, { limit: 6 }, [])
 }
 
 export default async function HomePage() {
