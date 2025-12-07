@@ -20,6 +20,10 @@ async function getPost(slug: string): Promise<Post | null> {
 
 export async function generateStaticParams() {
   const slugs = await safeFetch<{ slug: string }[]>(allPostSlugsQuery, {}, [])
+  // Return placeholder if no posts exist to allow SSG build
+  if (slugs.length === 0) {
+    return [{ slug: '_placeholder' }]
+  }
   return slugs.map((item) => ({ slug: item.slug }))
 }
 
