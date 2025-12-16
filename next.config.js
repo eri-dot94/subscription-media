@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove 'output: export' for Cloudflare Pages with edge runtime
   trailingSlash: true,
   images: {
     unoptimized: true,
