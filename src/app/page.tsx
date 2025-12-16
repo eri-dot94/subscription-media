@@ -4,9 +4,10 @@ import { safeFetch } from '@/lib/sanity.client'
 import { latestPostsQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PostCard from '@/components/PostCard'
+import { getSiteUrl } from '@/lib/siteConfig'
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Media Site'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+const siteUrl = getSiteUrl()
 
 export const metadata: Metadata = {
   title: `${siteName} - 最新のニュースと情報`,
