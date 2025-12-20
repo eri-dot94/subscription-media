@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { getSiteUrl } from '@/lib/siteConfig'
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Media Site'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+const siteUrl = getSiteUrl()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

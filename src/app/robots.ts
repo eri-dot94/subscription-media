@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+import { getSiteUrl } from '@/lib/siteConfig'
+
+const siteUrl = getSiteUrl()
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -2,7 +2,9 @@ import { MetadataRoute } from 'next'
 import { safeFetch } from '@/lib/sanity.client'
 import { allPostSlugsQuery, allCategorySlugsQuery } from '@/lib/queries'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+import { getSiteUrl } from '@/lib/siteConfig'
+
+const siteUrl = getSiteUrl()
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [postSlugs, categorySlugs] = await Promise.all([

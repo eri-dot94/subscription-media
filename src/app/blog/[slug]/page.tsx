@@ -6,9 +6,10 @@ import { safeFetch, getImageUrl } from '@/lib/sanity.client'
 import { postBySlugQuery, allPostSlugsQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
+import { getSiteUrl } from '@/lib/siteConfig'
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Media Site'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+const siteUrl = getSiteUrl()
 
 interface PostPageProps {
   params: { slug: string }

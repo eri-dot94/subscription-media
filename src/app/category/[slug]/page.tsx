@@ -10,9 +10,10 @@ import {
 import type { Post, Category } from '@/types'
 import PostCard from '@/components/PostCard'
 import Pagination from '@/components/Pagination'
+import { getSiteUrl } from '@/lib/siteConfig'
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Media Site'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+const siteUrl = getSiteUrl()
 
 const PAGE_SIZE = 12
 
