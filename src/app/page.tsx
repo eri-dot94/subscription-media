@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { safeFetch } from '@/lib/sanity.client'
-import { latestPostsQuery } from '@/lib/queries'
+import { safeFetch, getImageUrl } from '@/lib/sanity.client'
+import { latestPostsQuery, heroPostsQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PostCard from '@/components/PostCard'
+import HeroSlider from '@/components/HeroSlider'
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Media Site'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
@@ -30,24 +31,49 @@ async function getLatestPosts(): Promise<Post[]> {
   return safeFetch<Post[]>(latestPostsQuery, { limit: 6 }, [])
 }
 
+async function getHeroPosts() {
+  const result = await safeFetch<{ heroPosts: Post[] } | null>(
+    heroPostsQuery,
+    {},
+    null
+  )
+
+  if (!result?.heroPosts) return []
+
+  // Add pre-computed image URLs for the slider
+  return result.heroPosts.map((post) => ({
+    ...post,
+    heroImageUrl: getImageUrl(post.heroImage, 1920, 1080),
+  }))
+}
+
 export default async function HomePage() {
-  const posts = await getLatestPosts()
+  const [posts, heroPosts] = await Promise.all([
+    getLatestPosts(),
+    getHeroPosts(),
+  ])
+
+  const hasHeroPosts = heroPosts.length > 0
 
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
-        <div className="container-base text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
-            {siteName}
-          </h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            最新のニュースと情報をお届けします。
-            <br className="hidden sm:block" />
-            テクノロジー、ビジネス、ライフスタイルなど幅広いトピックをカバー。
-          </p>
-        </div>
-      </section>
+      {hasHeroPosts ? (
+        <HeroSlider posts={heroPosts} />
+      ) : (
+        <section className="bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
+          <div className="container-base text-center">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+              {siteName}
+            </h1>
+            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+              最新のニュースと情報をお届けします。
+              <br className="hidden sm:block" />
+              テクノロジー、ビジネス、ライフスタイルなど幅広いトピックをカバー。
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Latest Posts Section */}
       <section className="py-12 sm:py-16">

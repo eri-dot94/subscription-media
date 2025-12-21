@@ -104,3 +104,12 @@ export const relatedPostsQuery = groq`
     ${postFields}
   }
 `
+
+// ヒーローエリア記事取得
+export const heroPostsQuery = groq`
+  *[_type == "siteSettings"][0] {
+    "heroPosts": heroPosts[]->{
+      ${postFields}
+    }
+  }
+`
