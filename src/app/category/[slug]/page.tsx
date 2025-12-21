@@ -1,6 +1,9 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { safeFetch } from '@/lib/sanity.client'
+
+export const runtime = 'edge'
+
 import {
   postsByCategoryQuery,
   postsByCategoryCountQuery,
