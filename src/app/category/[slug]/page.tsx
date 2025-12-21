@@ -8,7 +8,6 @@ import {
   postsByCategoryQuery,
   postsByCategoryCountQuery,
   categoryBySlugQuery,
-  allCategorySlugsQuery,
 } from '@/lib/queries'
 import type { Post, Category } from '@/types'
 import PostCard from '@/components/PostCard'
@@ -44,15 +43,6 @@ async function getPostsByCategory(categorySlug: string, page: number) {
     pageSize: PAGE_SIZE,
     totalPages: Math.ceil(total / PAGE_SIZE) || 1,
   }
-}
-
-export async function generateStaticParams() {
-  const slugs = await safeFetch<{ slug: string }[]>(allCategorySlugsQuery, {}, [])
-  // Return placeholder if no categories exist to allow SSG build
-  if (slugs.length === 0) {
-    return [{ slug: '_placeholder' }]
-  }
-  return slugs.map((item) => ({ slug: item.slug }))
 }
 
 export async function generateMetadata({
