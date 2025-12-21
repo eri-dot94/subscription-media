@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import { safeFetch } from '@/lib/sanity.client'
+
+export const runtime = 'edge'
 import { postsQuery, postsCountQuery } from '@/lib/queries'
 import type { Post } from '@/types'
 import PostCard from '@/components/PostCard'
