@@ -12,6 +12,7 @@
     "deploy-graphql": "sanity graphql deploy"
   },
   "dependencies": {
+    "@sanity/code-input": "^5.1.2",
     "@sanity/vision": "^3.66.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
